@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle2, AlertCircle, Eye, ArrowLeft, ShieldAlert, Zap, FileCode, Check, ExternalLink, Copy, Sparkles, RefreshCw, ArrowRight } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle, Eye, ShieldAlert, Check, Copy, Sparkles, RefreshCw, ArrowRight } from 'lucide-react';
 
 interface GasEstimate {
   to: string;

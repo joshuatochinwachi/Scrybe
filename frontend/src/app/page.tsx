@@ -16,9 +16,9 @@ interface WalletInfo {
 interface RecentHistoryItem {
   tx_hash: string;
   to_address: string;
-  message_preview: str;
-  status: str;
-  timestamp: str;
+  message_preview: string;
+  status: string;
+  timestamp: string;
 }
 
 export default function DashboardPage() {
