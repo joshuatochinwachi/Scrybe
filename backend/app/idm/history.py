@@ -41,14 +41,14 @@ def fetch_etherscan_history(page: int = 1, limit: int = 20) -> Dict[str, Any]:
 
     api_key = settings.ETHERSCAN_API_KEY
     etherscan_url = (
-        f"https://api.etherscan.io/api"
-        f"?module=account&action=txlist"
+        f"https://api.etherscan.io/v2/api"
+        f"?chainid=1"
+        f"&module=account&action=txlist"
         f"&address={address}"
         f"&startblock=0&endblock=99999999"
         f"&sort=desc&offset=200&page=1"
+        f"&apikey={api_key}"
     )
-    if api_key:
-        etherscan_url += f"&apikey={api_key}"
 
     idm_items: List[Dict[str, Any]] = []
 
