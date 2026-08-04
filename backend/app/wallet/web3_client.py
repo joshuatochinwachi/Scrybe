@@ -128,13 +128,19 @@ class Web3ClientManager:
         return checksummed
 
     def encode_idm_payload(self, message: str) -> bytes:
-        """Encode free text IDM payload into UTF-8 hex bytes."""
-        payload_str = f"IDM: {message}" if not message.startswith("IDM: ") else message
-        encoded_bytes = payload_str.encode('utf-8')
-        
+        """Encode free text payload into UTF-8 hex bytes. No prefix — raw message only."""
+        # Strip any IDM: prefix the user may have typed manually
+        clean_message = message.strip()
+        if clean_message.startswith("IDM: "):
+            clean_message = clean_message[5:].strip()
+        elif clean_message.startswith("IDM:"):
+            clean_message = clean_message[4:].strip()
+
+        encoded_bytes = clean_message.encode('utf-8')
+
         if len(encoded_bytes) > settings.MAX_IDM_BYTES:
             raise ValueError(f"Message size ({len(encoded_bytes)} bytes) exceeds MAX_IDM_BYTES ({settings.MAX_IDM_BYTES} bytes)")
-        
+
         return encoded_bytes
 
     def estimate_idm_gas(self, to_address: str, message: str) -> Dict[str, Any]:
@@ -266,7 +272,11 @@ class Web3ClientManager:
         }
 
         # Store in memory cache for immediate history availability
-        raw_msg = message if not message.startswith("IDM: ") else message[5:]
+        raw_msg = message.strip()
+        if raw_msg.startswith("IDM: "):
+            raw_msg = raw_msg[5:].strip()
+        elif raw_msg.startswith("IDM:"):
+            raw_msg = raw_msg[4:].strip()
         self.record_broadcast({
             "tx_hash": tx_hash,
             "to_address": checksum_to,

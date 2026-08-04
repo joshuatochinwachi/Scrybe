@@ -7,8 +7,9 @@ from app.wallet.web3_client import web3_client
 
 def decode_idm_hex_data(input_hex: str) -> tuple[bool, str]:
     """
-    Decodes transaction input hex payload into string.
-    Returns (is_idm, decoded_message). Only matches IDM: prefixed payloads.
+    Decodes transaction input hex payload into readable string.
+    Accepts any UTF-8 readable payload — strips legacy IDM: prefix if present.
+    Returns (is_idm, decoded_message).
     """
     if not input_hex or input_hex in ("0x", "0x00", ""):
         return False, ""
@@ -20,13 +21,24 @@ def decode_idm_hex_data(input_hex: str) -> tuple[bool, str]:
         raw_bytes = bytes.fromhex(raw_hex)
         decoded_text = raw_bytes.decode('utf-8', errors='ignore').strip()
 
+        if not decoded_text:
+            return False, ""
+
+        # Strip legacy IDM: prefix if present (backwards compat)
         if decoded_text.startswith("IDM: "):
-            message = decoded_text[5:].strip()
-            return True, message
-        # Also match bare IDM messages without prefix (fallback)
+            decoded_text = decoded_text[5:].strip()
         elif decoded_text.startswith("IDM:"):
-            message = decoded_text[4:].strip()
-            return True, message
+            decoded_text = decoded_text[4:].strip()
+
+        # Accept any clean readable text payload (not binary / contract calldata)
+        # Contract calldata typically starts with a 4-byte function selector (8 hex chars)
+        # and doesn't decode to printable ASCII — filter those out
+        printable_ratio = sum(1 for c in decoded_text if c.isprintable()) / max(len(decoded_text), 1)
+        if printable_ratio < 0.85:
+            return False, ""
+
+        return True, decoded_text
+
     except Exception:
         pass
 

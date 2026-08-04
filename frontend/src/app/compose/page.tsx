@@ -55,13 +55,13 @@ export default function ComposePage() {
     }
   }, [toAddress]);
 
-  // Live payload byte & hex calculation client-side
-  const payloadStr = message ? (message.startsWith('IDM: ') ? message : `IDM: ${message}`) : '';
+  // Live payload byte & hex calculation client-side — raw message, no prefix
+  const payloadStr = message.trim();
   const textEncoder = new TextEncoder();
   const payloadBytesArray = textEncoder.encode(payloadStr);
   const payloadBytes = payloadBytesArray.length;
   const maxBytes = 100000;
-  
+
   const localHexPayload = payloadStr
     ? '0x' + Array.from(payloadBytesArray).map(b => b.toString(16).padStart(2, '0')).join('')
     : '0x';
@@ -226,7 +226,7 @@ export default function ComposePage() {
             className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 focus:border-blue-500 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-mono-code text-sm transition-all resize-y"
           />
           <p className="text-[11px] text-slate-500 font-mono-code mt-1.5">
-            Note: Payloads are automatically prefixed with <span className="text-blue-400">IDM: </span> and hex-encoded into transaction data.
+            Your message is stored as raw UTF-8 text directly in the transaction&apos;s <span className="text-blue-400">input data</span> field — fully readable on-chain.
           </p>
         </div>
 
