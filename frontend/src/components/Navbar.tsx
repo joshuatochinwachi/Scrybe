@@ -14,7 +14,7 @@ export default function Navbar() {
     address: string;
     balance_eth: string;
     gas_price_gwei: number;
-    connected: bool;
+    connected: boolean;
   } | null>(null);
 
   const [copied, setCopied] = useState(false);
