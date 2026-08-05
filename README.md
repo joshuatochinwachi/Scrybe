@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/joshuatochinwachi/Scrybe/main/frontend/public/readme_banner.png" alt="Scrybe — On-Chain IDM Logger for Ethereum" width="100%" onerror="this.style.display='none'" />
-</p>
 
 <h1 align="center">Scrybe — On-Chain IDM Logger for Ethereum</h1>
 
@@ -56,7 +53,6 @@
 - [⚙️ Environment Variables Reference](#️-environment-variables-reference)
 - [🚀 Setup & Running Locally](#-setup--running-locally)
 - [🛡️ Security & Hardening Architecture](#️-security--hardening-architecture)
-- [📚 Documentation Library](#-documentation-library)
 - [🗺️ Roadmap](#️-roadmap)
 - [👥 Developers & Socials](#-developers--socials)
 
@@ -556,13 +552,6 @@ Open `http://localhost:3000` in your web browser.
 5. **EVM Execution Pre-flight Simulation**: Runs `eth_call` before broadcasting to avoid burning gas on failing transactions.
 6. **Gas Price Ceiling Guardrail**: Aborts execution if current network Gwei exceeds `GAS_PRICE_CEILING_GWEI`.
 7. **Strict CORS Policies**: `ALLOWED_ORIGINS` strictly controls allowed cross-origin HTTP requests.
-
----
-
-## 📚 Documentation Library
-
-- 📐 **[Scrybe Specification Blueprint](./Scrybe.md)** — Complete Product & Technical Requirements Document (PRD & TRD).
-- 🐍 **[FastAPI Interactive API Documentation](http://localhost:8000/docs)** — Auto-generated OpenAPI / Swagger UI schemas.
 
 ---
 
